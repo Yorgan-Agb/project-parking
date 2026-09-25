@@ -1,0 +1,14 @@
+[
+  {
+    "id": "parking-1",
+    "ownerId": "owner-1",
+    "name": "Parking Gare Centrale",
+    "coordinates": { "lat": 47.9029, "lng": 1.9093 },
+    "totalSpots": 50,
+    "pricingGrid": [
+      { "fromMinute": 0, "pricePerQuarterHour": 0.6 },
+      { "fromMinute": 60, "pricePerQuarterHour": 1.1 }
+    ],
+    "openingHours": []
+  }
+]
