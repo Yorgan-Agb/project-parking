@@ -36,4 +36,28 @@ class Reservation
     {
         return $this->start < $end && $start < $this->end;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'userId' => $this->userId,
+            'parkingId' => $this->parkingId,
+            'start' => $this->start->format(DATE_ATOM),
+            'end' => $this->end->format(DATE_ATOM),
+            'price' => $this->price,
+        ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['id'],
+            $data['userId'],
+            $data['parkingId'],
+            new \DateTimeImmutable($data['start']),
+            new \DateTimeImmutable($data['end']),
+            (float) $data['price'],
+        );
+    }
 }

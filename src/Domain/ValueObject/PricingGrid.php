@@ -52,4 +52,20 @@ class PricingGrid
 
         return $applicable;
     }
+
+    public function toArray(): array
+    {
+        return array_map(
+            static fn(PricingTier $tier) => $tier->toArray(),
+            $this->tiers,
+        );
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(array_map(
+            static fn(array $tier) => PricingTier::fromArray($tier),
+            $data,
+        ));
+    }
 }

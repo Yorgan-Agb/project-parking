@@ -21,4 +21,14 @@ class GpsCoordinates
         $this->latitude = $latitude;
         $this->longitude = $longitude;
     }
+
+    public function toArray(): array
+    {
+        return ['lat' => $this->latitude, 'lng' => $this->longitude];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self((float) $data['lat'], (float) $data['lng']);
+    }
 }

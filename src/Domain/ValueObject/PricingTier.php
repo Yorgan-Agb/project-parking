@@ -17,4 +17,14 @@ class PricingTier
         $this->fromMinute = $fromMinute;
         $this->pricePerQuarterHour = $pricePerQuarterHour;
     }
+
+    public function toArray(): array
+    {
+        return ['fromMinute' => $this->fromMinute, 'pricePerQuarterHour' => $this->pricePerQuarterHour];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self((int) $data['fromMinute'], (float) $data['pricePerQuarterHour']);
+    }
 }
