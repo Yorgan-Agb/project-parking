@@ -38,7 +38,7 @@ class PricingGrid
             $total += $this->tierApplicableAt($elapsedAtSliceStart)->pricePerQuarterHour;
         }
 
-        return $total;
+        return round($total, 2);
     }
 
     private function tierApplicableAt(int $elapsedMinutes): PricingTier
