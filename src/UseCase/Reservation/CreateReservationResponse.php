@@ -4,34 +4,44 @@ declare(strict_types=1);
 
 namespace App\UseCase\Reservation;
 
-use App\Domain\Entity\Reservation;
-
 final class CreateReservationResponse
 {
     public readonly bool $success;
-    public readonly ?Reservation $reservation;
+    public readonly ?string $reservationId;
+    public readonly ?string $parkingId;
+    public readonly ?string $start;
+    public readonly ?string $end;
+    public readonly ?float $price;
     public readonly ?string $errorCode;
     public readonly ?string $errorMessage;
 
     private function __construct(
         bool $success,
-        ?Reservation $reservation,
+        ?string $reservationId,
+        ?string $parkingId,
+        ?string $start,
+        ?string $end,
+        ?float $price,
         ?string $errorCode,
         ?string $errorMessage
     ) {
         $this->success = $success;
-        $this->reservation = $reservation;
+        $this->reservationId = $reservationId;
+        $this->parkingId = $parkingId;
+        $this->start = $start;
+        $this->end = $end;
+        $this->price = $price;
         $this->errorCode = $errorCode;
         $this->errorMessage = $errorMessage;
     }
 
-    public static function success(Reservation $reservation): self
+    public static function success(string $reservationId, string $parkingId, string $start, string $end, float $price): self
     {
-        return new self(true, $reservation, null, null);
+        return new self(true, $reservationId, $parkingId, $start, $end, $price, null, null);
     }
 
     public static function failure(string $errorCode, string $errorMessage): self
     {
-        return new self(false, null, $errorCode, $errorMessage);
+        return new self(false, null, null, null, null, null, $errorCode, $errorMessage);
     }
 }
