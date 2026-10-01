@@ -10,5 +10,46 @@
       { "fromMinute": 60, "pricePerQuarterHour": 1.1 }
     ],
     "openingHours": []
+  },
+  {
+    "id": "parking-2",
+    "ownerId": "owner-1",
+    "name": "Parking Gare des Aubrais",
+    "coordinates": { "lat": 47.9266, "lng": 1.9076 },
+    "totalSpots": 30,
+    "pricingGrid": [
+      { "fromMinute": 0, "pricePerQuarterHour": 0.5 },
+      { "fromMinute": 120, "pricePerQuarterHour": 0.4 }
+    ],
+    "openingHours": []
+  },
+  {
+    "id": "parking-3",
+    "ownerId": "owner-1",
+    "name": "Parking Olivet Centre",
+    "coordinates": { "lat": 47.8633, "lng": 1.8997 },
+    "totalSpots": 20,
+    "pricingGrid": [
+      { "fromMinute": 0, "pricePerQuarterHour": 0.4 }
+    ],
+    "openingHours": [
+      { "dayOfWeek": 1, "startTime": "08:00", "endTime": "18:00" },
+      { "dayOfWeek": 2, "startTime": "08:00", "endTime": "18:00" },
+      { "dayOfWeek": 3, "startTime": "08:00", "endTime": "18:00" },
+      { "dayOfWeek": 4, "startTime": "08:00", "endTime": "18:00" },
+      { "dayOfWeek": 5, "startTime": "08:00", "endTime": "18:00" }
+    ]
+  },
+  {
+    "id": "parking-4",
+    "ownerId": "owner-1",
+    "name": "Parking Saint-Jean-de-Braye",
+    "coordinates": { "lat": 47.9120, "lng": 1.9740 },
+    "totalSpots": 40,
+    "pricingGrid": [
+      { "fromMinute": 0, "pricePerQuarterHour": 0.5 },
+      { "fromMinute": 60, "pricePerQuarterHour": 0.8 }
+    ],
+    "openingHours": []
   }
 ]

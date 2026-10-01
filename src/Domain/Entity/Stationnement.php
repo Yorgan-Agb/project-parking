@@ -39,4 +39,28 @@ class Stationnement
             $exit,
         );
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'userId' => $this->userId,
+            'parkingId' => $this->parkingId,
+            'reservationId' => $this->reservationId,
+            'entry' => $this->entry->format(DATE_ATOM),
+            'exit' => $this->exit?->format(DATE_ATOM),
+        ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['id'],
+            $data['userId'],
+            $data['parkingId'],
+            $data['reservationId'],
+            new \DateTimeImmutable($data['entry']),
+            $data['exit'] !== null ? new \DateTimeImmutable($data['exit']) : null,
+        );
+    }
 }

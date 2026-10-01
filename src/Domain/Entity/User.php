@@ -1,7 +1,5 @@
 <?php
 
-// Créer une réservation, Entrée/sortie de parking
-
 declare(strict_types=1);
 
 namespace App\Domain\Entity;

@@ -77,7 +77,13 @@ final class CreateReservationUseCase
 
         $this->reservationRepository->save($reservation);
 
-        return CreateReservationResponse::success($reservation);
+        return CreateReservationResponse::success(
+            $reservation->id,
+            $reservation->parkingId,
+            $reservation->start->format(DATE_ATOM),
+            $reservation->end->format(DATE_ATOM),
+            $reservation->price,
+        );
     }
 
     private function hasCapacityDuring(
