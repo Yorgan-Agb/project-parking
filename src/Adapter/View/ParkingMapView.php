@@ -43,10 +43,18 @@ final class ParkingMapView
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
+        function escapeHtml(value) {
+            const div = document.createElement('div');
+            div.textContent = value;
+            return div.innerHTML;
+        }
+
         parkings.forEach((parking) => {
+            const popupText = escapeHtml(parking.name) + " - " + parking.totalSpots + " places";
+
             L.marker([parking.latitude, parking.longitude])
                 .addTo(map)
-                .bindPopup(parking.name + " - " + parking.totalSpots + " places");
+                .bindPopup(popupText);
         });
     </script>
 </body>

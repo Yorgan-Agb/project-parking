@@ -32,9 +32,11 @@ Le stockage se fait dans des fichiers JSON (`data/*.json`). Changer de système 
 | Use case | Route | Méthode | Description |
 |---|---|---|---|
 | **Afficher la liste des parkings géolocalisés** | `/` | GET | Affiche une carte Leaflet avec les parkings disponibles |
-| **Créer une réservation** | `/reservations` | GET | Réserve une place pour un créneau donné, avec vérification des horaires d'ouverture et de la capacité disponible |
-| **Entrer dans un parking** | `/enter` | GET | Autorise l'entrée si une réservation active correspond au créneau en cours |
-| **Sortir d'un parking** | `/exit` | GET | Enregistre l'heure de sortie et libère la place |
+| **Créer une réservation** | `/reservations` | POST | Réserve une place pour un créneau donné, avec vérification des horaires d'ouverture et de la capacité disponible |
+| **Entrer dans un parking** | `/enter` | POST | Autorise l'entrée si une réservation active correspond au créneau en cours |
+| **Sortir d'un parking** | `/exit` | POST | Enregistre l'heure de sortie et libère la place |
+
+`/reservations`, `/enter` et `/exit` modifient l'état du système (création de réservation, de stationnement) : elles sont donc en `POST`, conformément aux bonnes pratiques HTTP (un `GET` ne doit jamais avoir d'effet de bord). Toute requête `GET` sur ces routes renvoie `405 Method Not Allowed`.
 
 ## Installation
 
@@ -57,21 +59,23 @@ http://localhost:8000/
 ```
 
 ### Créer une réservation
-```
-http://localhost:8000/reservations?userId=user-1&parkingId=parking-1&start=2026-10-10T10:00:00%2B02:00&end=2026-10-10T12:00:00%2B02:00
+```bash
+curl -X POST "http://localhost:8000/reservations" -d "userId=user-1&parkingId=parking-1&start=2026-10-10T10:00:00+02:00&end=2026-10-10T12:00:00+02:00"
 ```
 Réponses possibles (`errorCode`) : `INVALID_RANGE`, `PAST_RESERVATION`, `PARKING_NOT_FOUND`, `PARKING_CLOSED`, `NO_AVAILABILITY`.
 
 ### Entrer dans un parking
 Nécessite une réservation active (créée ci-dessus) pour le créneau en cours :
-```
-http://localhost:8000/enter?userId=user-1&parkingId=parking-1
+```bash
+curl -X POST "http://localhost:8000/enter" -d "userId=user-1&parkingId=parking-1"
 ```
 
 ### Sortir d'un parking
+```bash
+curl -X POST "http://localhost:8000/exit" -d "userId=user-1&parkingId=parking-1"
 ```
-http://localhost:8000/exit?userId=user-1&parkingId=parking-1
-```
+
+> Sous PowerShell (Windows), utilise `curl.exe` plutôt que `curl` seul, pour éviter l'alias vers `Invoke-WebRequest`.
 
 ## Stockage des données
 
@@ -80,3 +84,9 @@ Les données sont stockées dans `data/` :
 - `reservations.json` — réservations effectuées
 - `stationnements.json` — entrées/sorties enregistrées
 - `users.json` / `owners.json` — utilisateurs et propriétaires de parkings
+
+## Limitations connues
+
+Ce projet est un POC académique centré sur la Clean Architecture, pas une application prête pour la production. En particulier :
+- **Pas d'authentification/autorisation** : la création et la connexion de compte ne font pas partie des use cases implémentés. Les routes font confiance au `userId` transmis dans la requête, sans vérifier l'identité de l'appelant.
+- **Pas de verrouillage de fichier** sur les écritures JSON concurrentes (acceptable pour un usage mono-utilisateur de démonstration).

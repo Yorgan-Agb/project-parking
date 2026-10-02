@@ -46,9 +46,15 @@ if ($path === '/') {
     return;
 }
 
-if ($path === '/enter' || $path === '/exit') {
-    $userId = (string) ($_GET['userId'] ?? '');
-    $parkingId = (string) ($_GET['parkingId'] ?? '');
+if ($path === '/enter' || $path === '/exit'){
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo 'Méthode non autorisée';
+        return;
+    }
+    $userId = (string) ($_POST['userId'] ?? '');
+    $parkingId = (string) ($_POST['parkingId'] ?? '');
 
     $response = $path === '/enter'
         ? $enterParkingController->handle($userId, $parkingId)
@@ -61,10 +67,16 @@ if ($path === '/enter' || $path === '/exit') {
 }
 
 if ($path === '/reservations') {
-    $userId = (string) ($_GET['userId'] ?? '');
-    $parkingId = (string) ($_GET['parkingId'] ?? '');
-    $start = (string) ($_GET['start'] ?? '');
-    $end = (string) ($_GET['end'] ?? '');
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo 'Méthode non autorisée';
+        return;
+    }
+    $userId = (string) ($_POST['userId'] ?? '');
+    $parkingId = (string) ($_POST['parkingId'] ?? '');
+    $start = (string) ($_POST['start'] ?? '');
+    $end = (string) ($_POST['end'] ?? '');
 
     $response = $createReservationController->handle($userId, $parkingId, $start, $end);
 
