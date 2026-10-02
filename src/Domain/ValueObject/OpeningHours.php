@@ -43,13 +43,16 @@ class OpeningHours
             return true;
         }
 
-        foreach ($this->slots as $slot) {
-            if ($slot->contains($start) && $slot->contains($end)) {
-                return true;
+        $cursor = $start;
+        while ($cursor < $end) {
+            if (!$this->isOpenAt($cursor)) {
+                return false;
             }
+
+            $cursor = $cursor->modify('+15 minutes');
         }
 
-        return false;
+        return true;
     }
 
     public function toArray(): array
