@@ -51,4 +51,20 @@ class OpeningHours
 
         return false;
     }
+
+    public function toArray(): array
+    {
+        return array_map(
+            static fn(TimeSlot $slot) => $slot->toArray(),
+            $this->slots,
+        );
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(array_map(
+            static fn(array $slot) => TimeSlot::fromArray($slot),
+            $data,
+        ));
+    }
 }

@@ -40,4 +40,18 @@ class TimeSlot
         }
         return ($day === $this->dayOfWeek && $time >= $this->startTime) || ($day === $nextDay && $time < $this->endTime);
     }
+
+    public function toArray(): array
+    {
+        return ['dayOfWeek' => $this->dayOfWeek, 'startTime' => $this->startTime, 'endTime' => $this->endTime];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            (int) $data['dayOfWeek'],
+            (string) $data['startTime'],
+            (string) $data['endTime'],
+        );
+    }
 }

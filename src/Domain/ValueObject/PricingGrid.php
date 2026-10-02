@@ -38,7 +38,7 @@ class PricingGrid
             $total += $this->tierApplicableAt($elapsedAtSliceStart)->pricePerQuarterHour;
         }
 
-        return $total;
+        return round($total, 2);
     }
 
     private function tierApplicableAt(int $elapsedMinutes): PricingTier
@@ -51,5 +51,21 @@ class PricingGrid
         }
 
         return $applicable;
+    }
+
+    public function toArray(): array
+    {
+        return array_map(
+            static fn(PricingTier $tier) => $tier->toArray(),
+            $this->tiers,
+        );
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(array_map(
+            static fn(array $tier) => PricingTier::fromArray($tier),
+            $data,
+        ));
     }
 }
